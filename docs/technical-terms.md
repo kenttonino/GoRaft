@@ -8,7 +8,7 @@
 > - __CAP Theorem__
 >   - A rule that says a distributed system can only guarantee two of three: consistency, availability, partition tolerance.
 > - __Fault Tolerance__
->   - The ability of a system to keep working even when somes noeds crash or disconnect.
+>   - The ability of a system to keep working even when somes nodes crash or disconnect.
 > - __Quorum__
 >   - The minimum number of nodes that must agree before a write is considered successful (majority - 2 of 3).
 > - __Linearizability__
@@ -37,8 +37,8 @@
 
 
 # Store
-> - __KV__(Key-Value) __Store__
->   - A simple database that a store data as key-value paris, like a dictionary on disk.
+> - __KV__ (Key-Value) __Store__
+>   - A simple database that a store data as key-value pairs, like a dictionary on disk.
 > - __Write-Ahead Log__ (WAL)
 >   - A file where every change is recorded before it's applied - so data survives crashes.
 > - __Log Replication__
