@@ -4,7 +4,12 @@
 > - This is a personal project exploring distributed systems fundamentals.
 > - Check the `/docs/*` for further information.
 
+<br />
+<br />
+<br />
 
-<br />
-<br />
-<br />
+
+
+## Local Setup
+
+> - Run the following commands.
