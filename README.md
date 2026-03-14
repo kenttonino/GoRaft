@@ -9,14 +9,14 @@
 
 ```mermaid
 graph TD
-    Client["Client<br/><small>CLI / Go SDK</small>"]
+    Client["Client — CLI / Go SDK"]
 
     Client -->|SET / GET| Leader
 
     subgraph Cluster ["3-node cluster (localhost)"]
-        Leader["Leader node<br/><small>accepts all writes</small>"]
-        F1["Follower 1"]
-        F2["Follower 2"]
+        Leader["Leader node — accepts all writes"]
+        F1["Follower 1 — replicates log"]
+        F2["Follower 2 — replicates log"]
 
         Leader -->|AppendEntries| F1
         Leader -->|AppendEntries| F2
@@ -25,9 +25,9 @@ graph TD
     end
 
     subgraph Inside ["Inside each node"]
-        Raft["Raft engine<br/><small>consensus</small>"]
-        WAL["WAL<br/><small>durability</small>"]
-        KV["KV store<br/><small>GET / SET / DEL</small>"]
+        Raft["Raft engine — consensus"]
+        WAL["WAL — write-ahead log"]
+        KV["KV store — GET / SET / DEL"]
 
         Raft --> WAL
         WAL --> KV
@@ -37,4 +37,3 @@ graph TD
 <br />
 <br />
 <br />
-
