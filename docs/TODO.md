@@ -1,9 +1,9 @@
 ## (Phase-1) Single-node KV store
-- [ ] _Build in-memory KV store with GET, SET, DEL._
-- [ ] _Open a raw TCP server with net.Listen._
-- [ ] _Parse and handle client commands over TCP._
-- [ ] _Handle concurrent connections with goroutines._
-- [ ] _Write unit tests for the KV store._
+- [x] _Build in-memory KV store with GET, SET, DEL._
+- [x] _Open a raw TCP server with net.Listen._
+- [x] _Parse and handle client commands over TCP._
+- [x] _Handle concurrent connections with goroutines._
+- [x] _Write unit tests for the KV store._
 
 <br />
 <br />
@@ -52,7 +52,6 @@
 - [ ] _Test writes — SET a key, GET it from a different node._
 - [ ] _Kill the leader and watch a new one get elected._
 - [ ] _Simulate a partition with docker network disconnect._
-
 
 
 
