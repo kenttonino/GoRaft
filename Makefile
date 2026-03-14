@@ -1,3 +1,7 @@
+# Build GoRaft.
+build:
+	go build -o ./bin/goraft ./src/main.go
+
 # Run on the terminal 1.
 run-server:
 	go run ./src/main.go
