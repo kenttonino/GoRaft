@@ -54,5 +54,3 @@
 - [ ] _Simulate a partition with docker network disconnect._
 
 
-
-
