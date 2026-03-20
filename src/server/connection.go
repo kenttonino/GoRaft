@@ -1,22 +1,11 @@
 package server
 
 import (
-	"GoRaft/src/store"
 	"bufio"
 	"fmt"
 	"net"
 	"strings"
 )
-
-// Server listens for income TCP connections and handles
-// commands from clients (SET, GET, DEL).
-type Server struct {
-	// addr is the address we listen on (e.g. :7001).
-	addr string
-	// store is our KV database.
-	// Shared across all connections.
-	store *store.Store
-}
 
 // handleConn reads commands from a single client connection and sends back responses.
 // It runs in its own goroutine.
@@ -82,39 +71,5 @@ func (s *Server) handleConn(conn net.Conn) {
 		default:
 			fmt.Fprintln(conn, "ERR unknown command:", cmd)
 		}
-	}
-}
-
-// New creates a new Server with the given address and store.
-// Example: New(":7001", myStore)
-func New(addr string, store *store.Store) *Server {
-	newServer := Server{addr: addr, store: store}
-	return &newServer
-}
-
-// Starts opens a TCP socket and begins accepting client connections.
-// Each connection gets its own goroutine so multiple clients can
-// connect at the same time without blocking each other.
-func (s *Server) Start() error {
-	// net.Listen opens a TCP socket on the given address.
-	// Think of it like opening a door - clients can now knock.
-	ln, err := net.Listen("tcp", s.addr)
-	if err != nil {
-		return err
-	}
-	// Close the door when the server stops.
-	defer ln.Close()
-
-	fmt.Println("GoRaft listening on", s.addr)
-
-	// Keep waiting for new client connections forever.
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			fmt.Println("Connection error:", err)
-			continue
-		}
-
-		go s.handleConn(conn)
 	}
 }
