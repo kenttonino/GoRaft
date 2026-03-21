@@ -1,38 +1,41 @@
 package store
 
-// Set stores a value under the given key.
-// If the key already exists, it gets overwritten.
-// Example: Set("name", "goraft")
-func (s *Store) Set(key, value string) {
-	// Lock for writing - no other goroutine can read or write, until
-	// we call Unlock via defer.
+import "fmt"
+
+// Set writes the command to the WAL first, then stores it in memory.
+// If the server crashes after the WAL write but before the memory
+// update, the WAL replay on restart will recover it.
+func (s *Store) Set(key, value string) error {
+	// Write to WAL first, this is the "write-ahead" part.
+	if err := s.wal.Write("SET", key, value); err != nil {
+		return fmt.Errorf("WAL write failed: %w", err)
+	}
+
+	// Now safe to update memory.
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
 	s.data[key] = value
+	return nil
 }
 
-// Get retrieves the value for a given key.
-// Returns the value and a boolean, true if found, false if not.
-// Example: Get("name") -> "goraft", true
-// Example: Get("name-2") -> "", false
+// Get retrieves a value from memory, no WAL needed for reads.
 func (s *Store) Get(key string) (string, bool) {
-	// RLock for reading, multiple goroutines can read at the same time,
-	// but writing is blocked until we RUnlock.
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-
 	val, ok := s.data[key]
 	return val, ok
 }
 
-// Delete removes a key-value pair from the store.
-// If the key doesn't exist, nothing happens - no error.
-// Example: Delete("name")
-func (s *Store) Delete(key string) {
-	// Lock for writing.
+// Delete writes the command to the WAL first, then removes from memory.
+func (s *Store) Delete(key string) error {
+	// Write to WAL first.
+	if err := s.wal.Write("DEL", key, ""); err != nil {
+		return fmt.Errorf("WAL write failed: %w", err)
+	}
+
+	// Now safe to delete from memory.
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
 	delete(s.data, key)
+	return nil
 }

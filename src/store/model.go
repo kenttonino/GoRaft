@@ -1,6 +1,9 @@
 package store
 
-import "sync"
+import (
+	"GoRaft/src/wal"
+	"sync"
+)
 
 // Store is our in-memory key-value database.
 // Think of it like a dictionary - you store a value under a key,
@@ -13,4 +16,7 @@ type Store struct {
 	// data is the actual map that holds our key-value pairs.
 	// Example: data["name"] = "goraft".
 	data map[string]string
+
+	// wal is the write-ahead log that persists commnds to disk.
+	wal *wal.WAL
 }
