@@ -3,7 +3,6 @@ package wal
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 )
 
 // New opens (or creates) the WAL file at the given path. If the
@@ -15,7 +14,7 @@ func New(path string) (*WAL, error) {
 	// 07 -> Octal.
 	// 5 -> Owner.
 	// 5 -> Group.
-	err := os.MkdirAll(filepath.Dir(path), 0755)
+	err := os.MkdirAll(Filepath(path), 0755)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create WAL directory: %w", err)
 	}
