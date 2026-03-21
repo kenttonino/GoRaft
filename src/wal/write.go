@@ -14,7 +14,7 @@ func (w *WAL) Write(cmd, key, value string) error {
 	if value != "" {
 		line = fmt.Sprintf("%s %s %s\n", cmd, key, value)
 	} else {
-		line = fmt.Sprintf("%s %s\n".cmd, key)
+		line = fmt.Sprintf("%s %s\n", cmd, key)
 	}
 
 	// Write the line to disk.
