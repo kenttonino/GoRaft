@@ -14,10 +14,10 @@
 
 
 ## (Phase-2) Persistence with WAL
-- [ ] _Design the WAL entry format (index, term, command)._
-- [ ] _Write every command to the WAL file before applying it._
-- [ ] _Replay WAL on startup to restore state after a crash._
-- [ ] _Test crash recovery — kill the process, restart, verify data is intact._
+- [x] _Design the WAL entry format (index, term, command)._
+- [x] _Write every command to the WAL file before applying it._
+- [x] _Replay WAL on startup to restore state after a crash._
+- [x] _Test crash recovery — kill the process, restart, verify data is intact._
 
 <br />
 <br />
@@ -52,5 +52,4 @@
 - [ ] _Test writes — SET a key, GET it from a different node._
 - [ ] _Kill the leader and watch a new one get elected._
 - [ ] _Simulate a partition with docker network disconnect._
-
 
