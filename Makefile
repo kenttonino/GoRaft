@@ -6,7 +6,7 @@ install:
 
 # Build GoRaft for AMD64 architecture.
 build-amd64:
-	go build -o ./bin/goraft-amd64 ./src/main.go
+	GOARCH=amd64 go build -o ./bin/goraft-amd64 ./src/main.go
 
 # Build GoRaft for ARM64 architecture
 build-arm64:
