@@ -4,9 +4,13 @@
 install:
 	go mod tidy
 
-# Build GoRaft.
-build:
-	go build -o ./bin/goraft ./src/main.go
+# Build GoRaft for AMD64 architecture.
+build-amd64:
+	go build -o ./bin/goraft-amd64 ./src/main.go
+
+# Build GoRaft for ARM64 architecture
+build-arm64:
+	GOARCH=arm64 GOOS=darwin go build -o ./bin/goraft-arm64 ./src/main.go
 
 # Run on the terminal 1.
 run-server:
