@@ -11,19 +11,27 @@ func (s *Server) Start() error {
 	if err != nil {
 		return err
 	}
-	defer ln.Close()
+	s.ln = ln
 
 	fmt.Println("GoRaft listening on", s.addr)
 
 	for {
-		// Wait for a client to connect.
 		conn, err := ln.Accept()
 		if err != nil {
+			if s.ln == nil {
+				return nil
+			}
 			fmt.Println("connection error:", err)
 			continue
 		}
-
-		// Handle this client in its own goroutine.
 		go s.handleConn(conn)
+	}
+}
+
+// Stop closes the listener, causing Start's accept loop to return.
+func (s *Server) Stop() {
+	if s.ln != nil {
+		s.ln.Close()
+		s.ln = nil
 	}
 }
