@@ -3,3 +3,4 @@ SET 1 1
 SET testing 1
 SET testing 2
 DEL testing
+SET name Kent

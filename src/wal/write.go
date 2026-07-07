@@ -8,6 +8,9 @@ import "fmt"
 // IMPORTANT: This must be called BEFORE applying the command to
 // the in-memory store. That's the whole point of write-ahead.
 func (w *WAL) Write(cmd, key, value string) error {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+
 	// Format the command as a single line.
 	// For DEL commands, value will be empty.
 	var line string
