@@ -1,4 +1,4 @@
-name: GoRaft PR
+name: Quality Check
 
 on:
   push:
