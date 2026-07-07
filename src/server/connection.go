@@ -13,6 +13,10 @@ func (s *Server) handleConn(conn net.Conn) {
 
 	// Read commands line by line from the client.
 	scanner := bufio.NewScanner(conn)
+	if scanner.Err() != nil {
+		fmt.Fprintln(conn, "ERR: failed to create new scanner")
+		return
+	}
 
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
