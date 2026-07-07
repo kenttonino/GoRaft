@@ -7,16 +7,9 @@ import (
 	"strings"
 )
 
-// Replay reads the WAL file from the beginning and returns all
-// the commands in order, so they can be replayed on startup. Each
-// entry is returned as a slice of strings, same as parts from the
-// TCP server: ["SET", "name", "goraft"] or ["DEL", "name"]
 func Replay(path string) ([][]string, error) {
-	// Open the file for reading only.
 	file, err := os.Open(path)
 	if err != nil {
-		// If the file doesn't exist yet, there's nothing to replay.
-		// This s normal on first startup, return empty, no error.
 		if os.IsNotExist(err) {
 			return nil, nil
 		}
@@ -24,22 +17,30 @@ func Replay(path string) ([][]string, error) {
 	}
 	defer file.Close()
 
-	// Read the file.
+	return replayReader(file)
+}
+
+func (w *WAL) Replay() ([][]string, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+
+	if _, err := w.file.Seek(0, 0); err != nil {
+		return nil, fmt.Errorf("failed to seek WAL to start: %w", err)
+	}
+
+	return replayReader(w.file)
+}
+
+func replayReader(f *os.File) ([][]string, error) {
 	var entries [][]string
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-
-		// Skip empty lines.
 		if line == "" {
 			continue
 		}
-
-		// Split the line back into parts.
-		// "SET name goraft" -> ["SET", "name", "goraft"]
 		parts := strings.Fields(line)
 		entries = append(entries, parts)
 	}
-
 	return entries, scanner.Err()
 }

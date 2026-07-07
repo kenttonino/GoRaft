@@ -1,20 +1,15 @@
 package store
 
 import (
-	"GoRaft/src/wal"
 	"fmt"
 )
 
-// replay reads the WAL file and re-applies every command to
-// the in-memory map, restoring state from before the crash.
-func (s *Store) replay(walPath string) error {
-	entries, err := wal.Replay(walPath)
+func (s *Store) replay() error {
+	entries, err := s.wal.Replay()
 	if err != nil {
 		return err
 	}
 
-	// Re-apply each command directly to the map (no WAL write this time
-	// the entries are already on disk, we're just rebuilding memory).
 	for _, parts := range entries {
 		if len(parts) == 0 {
 			continue

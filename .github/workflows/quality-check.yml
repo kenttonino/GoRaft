@@ -15,13 +15,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v5
         with:
-          go-verson: ${{ matrix.go-version }}
+          go-version: ${{ matrix.go-version }}
 
       - name: Display Go Version
         run: go version
 
       - name: Build the Source
         run: make build
+
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.26.1']
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests
+        run: make run-test
