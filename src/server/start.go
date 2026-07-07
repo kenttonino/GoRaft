@@ -5,7 +5,6 @@ import (
 	"net"
 )
 
-// Start opens a TCP socket and begins accepting client connections.
 func (s *Server) Start() error {
 	ln, err := net.Listen("tcp", s.addr)
 	if err != nil {
@@ -28,7 +27,6 @@ func (s *Server) Start() error {
 	}
 }
 
-// Stop closes the listener, causing Start's accept loop to return.
 func (s *Server) Stop() {
 	if s.ln != nil {
 		s.ln.Close()
