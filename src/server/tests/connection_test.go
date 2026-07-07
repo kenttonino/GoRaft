@@ -20,8 +20,6 @@ func newTestServer(t *testing.T) *server.Server {
 	return server.New(":0", s)
 }
 
-// start runs the server in a background goroutine and returns its
-// actual bound address. Registers t.Cleanup to stop it.
 func start(t *testing.T, srv *server.Server) string {
 	t.Helper()
 	ready := make(chan string, 1)
