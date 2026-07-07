@@ -26,5 +26,17 @@ jobs:
       - name: Build the Source
         run: make build
 
-      - name: Run Tests
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-verson: ['1.26.1']
+
+    steps:
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-verson: ${{ matrix.go-version }}
+
+      - name: Run tests
         run: make run-test
