@@ -3,16 +3,10 @@
 install:
 	go mod tidy
 
-build-amd64:
-	GOARCH=amd64 go build -o ./bin/goraft-amd64 ./src/main.go
+build: install
+	go build -o ./bin/goraft ./src/main.go
 
-build-arm64:
-	GOARCH=arm64 GOOS=darwin go build -o ./bin/goraft-arm64 ./src/main.go
-
-run-test:
-
-
-run-server:
+run-server: build
 	go run ./src/main.go
 
 run-client:

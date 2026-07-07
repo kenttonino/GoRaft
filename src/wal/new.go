@@ -24,7 +24,7 @@ func New(path string) (*WAL, error) {
 	// os.O_APPEND -> always write at the end of the file.
 	// os.O_WRONLY -> we only write to this file handle.
 	// 0644 -> File permission (owner can read/write others can read).
-	file, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0644)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open WAL file: %w", err)
 	}

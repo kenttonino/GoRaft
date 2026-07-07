@@ -21,7 +21,7 @@ func New(walPath string) (*Store, error) {
 
 	// Replay the WAL to restore data from the last one.
 	// This is what makes data survive crashes.
-	if err := s.replay(walPath); err != nil {
+	if err := s.replay(); err != nil {
 		return nil, fmt.Errorf("failed to replay WAL: %w", err)
 	}
 
